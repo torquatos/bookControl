@@ -16,4 +16,15 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	@Query("UPDATE Book b SET b.wasRead = ?2 WHERE b.id = ?1")
 	void updateBookStatus(Long bookId, boolean wasRead);
 	
+	@Transactional
+	@Modifying
+	@Query("UPDATE Book b SET b.name = ?2, b.author = ?3, b.genre = ?4 b.publisher = ?5, b.year = ?6, b.summary = ?7,")
+	
 }
+
+/*
+"wantToRead INTEGER NOT NULL CHECK (wantToRead IN (0, 1)),"
+					+ "rate DOUBLE,"
+					+ "personalNotes TEXT,"
+					+ "readAgain IN*/
+ */
