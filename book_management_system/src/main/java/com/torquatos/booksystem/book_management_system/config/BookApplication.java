@@ -4,7 +4,6 @@ import com.torquatos.booksystem.book_management_system.repo.*;
 import org.springframework.boot.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -42,10 +41,10 @@ public class BookApplication{
 			try (Connection conn = DriverManager.getConnection(url);
 					Statement stmt = conn.createStatement()) {
 				stmt.execute(sql);
-				System.out.println("The Table 'Books' was succesfully created");
-			}
+				System.out.println("The Table 'Books' was succesfully created");			
+				}
 			
-		}
+		};
 	}
 }
 
