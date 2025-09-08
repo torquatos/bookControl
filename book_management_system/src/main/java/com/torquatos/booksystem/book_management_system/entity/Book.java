@@ -18,6 +18,7 @@ public class Book {
 	private int year;
 	private String summary;
 	private boolean wasRead;
+	private boolean wantToRead;
 	private double rate;
 	private String personalNotes;
 	private boolean readAgain;
@@ -34,6 +35,7 @@ public class Book {
 	this.year = year;
 	this.summary = summary;
 	this.wasRead = false;
+	this.wantToRead = false;
 	this.rate = rate;
 	this.personalNotes = personalNotes;
 	this.readAgain = false;
@@ -101,6 +103,14 @@ public class Book {
 	
 	public void setWasRead(boolean wasRead) {
 		this.wasRead = wasRead;
+	}
+	
+	public boolean getWantToRead() {
+		return wantToRead;
+	}
+	
+	public void setWantToRead(boolean wantToRead) {
+		this.wantToRead = wantToRead;
 	}
 	
 	public double getRate() {
