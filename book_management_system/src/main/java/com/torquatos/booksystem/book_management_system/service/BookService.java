@@ -42,7 +42,7 @@ public class BookService {
 	}
 	
 	public void updateBook(Long bookId, Book updateBook) {
-		bookRepository.updateBookDetails(bookId, updateBook.getName(), updateBook.getAuthor(), updateBook.getGenre(), updateBook.getPublisher(), updateBook.getYear(), updateBook.getSummary(), updateBook.getRate(), updateBook.getPersonalNotes());
-
+		bookRepository.updateBookDetails(bookId, updateBook.getName(), updateBook.getAuthor(), updateBook.getGenre(), updateBook.getPublisher(), updateBook.getYear(), updateBook.getSummary(), updateBook.getWantToRead(), updateBook.getRate(), updateBook.getPersonalNotes(), updateBook.getReadAgain());
+	}
 	
 }
