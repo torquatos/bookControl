@@ -1,7 +1,6 @@
 package com.torquatos.booksystem.book_management_system.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "books")

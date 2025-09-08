@@ -1,4 +1,4 @@
-package com.torquatos.booksystem.book_management_system.web.controller;
+/*package com.torquatos.booksystem.book_management_system.web.controller;
 
 import com.torquatos.booksystem.book_management_system.entity.User;
 import com.torquatos.booksystem.book_management_system.service.UserService;
@@ -58,4 +58,4 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-}
+}*/
