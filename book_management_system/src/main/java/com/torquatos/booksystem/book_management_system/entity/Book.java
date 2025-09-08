@@ -27,7 +27,7 @@ public class Book {
 		
 	}
 	
-	public Book(String name, String author, String genre, String publisher, int year, String summary, double rate, String personalNotes)
+	public Book(String name, String author, String genre, String publisher, int year, String summary, double rate, String personalNotes) {
 	this.name = name;
 	this.author = author;
 	this.genre = genre;
@@ -38,6 +38,29 @@ public class Book {
 	this.rate = rate;
 	this.personalNotes = personalNotes;
 	this.readAgain = false;
+	}
 	
-
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getAuthor() {
+		return author;
+	}
+	
+	public void setAuthor (String author) {
+		this.author = author;
+	}
 }
