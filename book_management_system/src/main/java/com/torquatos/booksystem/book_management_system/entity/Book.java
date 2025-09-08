@@ -80,5 +80,51 @@ public class Book {
 		this.publisher = publisher;
 	}
 	
-
+	public int getYear() {
+		return year;
+	}
+	
+	public void setYear(int year) {
+		this.year = year;
+	}
+	
+	public String getSummary() {
+		return summary;
+	}
+	
+	public void getSummary(String summary) {
+		this.summary = summary;
+	}
+	
+	public boolean getWasRead() {
+		return wasRead;
+	}
+	
+	public void setWasRead(boolean wasRead) {
+		this.wasRead = wasRead;
+	}
+	
+	public double getRate() {
+		return rate;
+	}
+	
+	public void setRate(double rate) {
+		this.rate = rate;
+	}
+	
+	public String getPersonalNotes() {
+		return personalNotes;
+	}
+	
+	public void setPersonalNotes(String personalNotes) {
+		this.personalNotes = personalNotes;
+	}
+	
+	public boolean getReadAgain () {
+		return readAgain;
+	}
+	
+	public void setReadAgain(boolean readAgain){
+		this.readAgain = readAgain;
+	}
 }
