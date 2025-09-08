@@ -27,6 +27,17 @@ public class Book {
 		
 	}
 	
-	public Book()
+	public Book(String name, String author, String genre, String publisher, int year, String summary, double rate, String personalNotes)
+	this.name = name;
+	this.author = author;
+	this.genre = genre;
+	this.publisher = publisher;
+	this.year = year;
+	this.summary = summary;
+	this.wasRead = false;
+	this.rate = rate;
+	this.personalNotes = personalNotes;
+	this.readAgain = false;
+	
 
 }
