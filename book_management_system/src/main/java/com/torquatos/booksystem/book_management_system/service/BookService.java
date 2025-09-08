@@ -13,6 +13,7 @@ import org.springframework.stereotype.*;
 @Service
 public class BookService {
 	
+
 	private final BookRepository bookRepository;
 	
 	@Autowired
@@ -31,5 +32,17 @@ public class BookService {
 	public Book saveBook(Book book) {
 		return bookRepository.save(book);
 	}
+	
+	public void deleteBook(Long id) {
+		bookRepository.deleteById(id);
+	}
+	
+	public void updateBookStatus (Long bookId, boolean wasRead) {
+		bookRepository.updateBookStatus(bookId, wasRead);
+	}
+	
+	public void updateBook(Long bookId, Book updateBook) {
+		bookRepository.updateBookDetails(bookId, updateBook.getName(), updateBook.getAuthor(), updateBook.getGenre(), updateBook.getPublisher(), updateBook.getYear(), updateBook.getSummary(), updateBook.getRate(), updateBook.getPersonalNotes());
+
 	
 }
