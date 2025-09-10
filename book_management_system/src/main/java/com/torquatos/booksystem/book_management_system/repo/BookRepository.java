@@ -20,5 +20,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	@Modifying
 	@Query("UPDATE Book b SET b.name = ?2, b.author = ?3, b.genre = ?4 b.publisher = ?5, b.year = ?6, b.summary = ?7, b.wantToRead = ?8, b.rate = ?8, b.personalNotes = ?9, b.readAgain = ?10, b.id = ?1")
 	void updateBookDetails(Long bookId, String name, String author, String genre, String publisher, int year, String summary, boolean wantToRead, double rate, String personalNotes, boolean readAgain);
+
 	
 }
