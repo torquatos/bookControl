@@ -1,110 +1,91 @@
 package com.torquatos.booksystem.book_management_system.web.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.torquatos.booksystem.book_management_system.utils.TestHelper;
 import com.torquatos.booksystem.book_management_system.entity.Book;
-import com.torquatos.booksystem.book_management_system.service.BookService;
+import com.torquatos.booksystem.book_management_system.repo.BookRepository;
+import com.torquatos.booksystem.book_management_system.utils.BaseIntegrationTest;
+import com.torquatos.booksystem.book_management_system.utils.TestHelper;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.List;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(controllers = BookController.class)
-public class BookControllerTests {
-
-    @MockBean
-    BookService bookService;
+public class BookControllerIT extends BaseIntegrationTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    BookRepository bookRepository;
 
-    ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    TestRestTemplate restTemplate;
 
     Book existingBook, newBook, updateBook;
 
     @Before
     public void setUp() {
-        newBook = TestHelper.buildBookWithId();
-        existingBook = TestHelper.buildBookWithId();
-        updateBook = TestHelper.buildBookWithId();
+        newBook = TestHelper.buildBook();
+
+        existingBook = TestHelper.buildBook();
+        existingBook = bookRepository.save(existingBook);
+
+        updateBook = TestHelper.buildBook();
+        updateBook = bookRepository.save(updateBook);
+    }
+
+    @After
+    public void tearDown() {
+        if(newUser.getId() != null) {
+            userRepository.deleteById(newUser.getId());
+        }
+        userRepository.deleteAll(userRepository.findAllById(asList(existingUser.getId(), updateUser.getId())));
     }
 
     @Test
-    public void should_get_all_books() throws Exception {
-        given(bookService.getAllBooks()).willReturn(Arrays.asList(existingBook, updateBook));
-
-        this.mockMvc
-                .perform(get("/api/books"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)));
+    public void should_get_all_users() {
+        ResponseEntity<User[]> responseEntity = restTemplate.getForEntity("/api/users", User[].class);
+        List<User> users = asList(responseEntity.getBody());
+        assertThat(users).isNotEmpty();
     }
 
     @Test
-    public void should_get_book_by_id() throws Exception {
-        given(bookService.getBookById(existingBook.getId())).willReturn(Optional.of(existingBook));
-
-        this.mockMvc
-                .perform(get("/api/books/"+existingBook.getId()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(existingBook.getId())))
-                .andExpect(jsonPath("$.name", is(existingBook.getName())));
-                //.andExpect(jsonPath("$.email", is(existingUser.getEmail())));
+    public void should_get_user_by_id() {
+        ResponseEntity<User> responseEntity = restTemplate.getForEntity("/api/users/"+existingUser.getId(), User.class);
+        User user = responseEntity.getBody();
+        assertThat(user).isNotNull();
     }
 
     @Test
-    public void should_create_book() throws Exception {
-        given(bookService.saveBook(newBook)).willReturn(newBook);
-
-        this.mockMvc
-                .perform(post("/api/users/")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newBook))
-                )
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id", notNullValue()))
-                .andExpect(jsonPath("$.name", is(newBook.getName())));
-               // .andExpect(jsonPath("$.email", is(newBook.getEmail())));
+    public void should_create_user() {
+        HttpEntity<User> request = new HttpEntity<>(newUser);
+        ResponseEntity<User> responseEntity = restTemplate.postForEntity("/api/users", request, User.class);
+        User savedUser = responseEntity.getBody();
+        assertThat(savedUser.getId()).isNotNull();
     }
 
     @Test
-    public void should_update_book() throws Exception {
-    	 given(bookService.updateBook(existingBook.getId(), updateBook)).willReturn(Optional.of(updateBook));
-
-        this.mockMvc
-                .perform(put("/api/books/"+existingBook.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updateBook))
-                )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(updateBook.getId())))
-                .andExpect(jsonPath("$.name", is(updateBook.getName())));
-               // .andExpect(jsonPath("$.email", is( existingBook.getEmail())));
+    public void should_update_user() {
+        HttpEntity<User> request = new HttpEntity<>(updateUser);
+        restTemplate.put("/api/users/"+updateUser.getId(), request, User.class);
+        ResponseEntity<User> responseEntity = restTemplate.getForEntity("/api/users/"+updateUser.getId(), User.class);
+        User updatedUser = responseEntity.getBody();
+        assertThat(updatedUser.getId()).isEqualTo(updateUser.getId());
+        assertThat(updatedUser.getEmail()).isEqualTo(updateUser.getEmail());
     }
 
     @Test
-    public void should_delete_book() throws Exception {
-        given(bookService.getBookById(existingBook.getId())).willReturn(Optional.of(existingBook));
-        doNothing().when(bookService).deleteBook(existingBook.getId());
-
-        this.mockMvc
-                .perform(delete("/api/books/"+existingBook.getId()))
-                .andExpect(status().isOk());
+    public void should_delete_user() {
+        ResponseEntity<User> responseEntity = restTemplate.getForEntity("/api/users/"+existingUser.getId(), User.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
+        restTemplate.delete("/api/users/"+existingUser.getId());
+        responseEntity = restTemplate.getForEntity("/api/users/"+existingUser.getId(), User.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(NOT_FOUND);
     }
-
 }

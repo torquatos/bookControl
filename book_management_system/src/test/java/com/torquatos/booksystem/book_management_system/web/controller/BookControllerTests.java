@@ -27,8 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = BookController.class)
 public class BookControllerTests {
-	
-	@MockBean
+
+    @MockBean
     BookService bookService;
 
     @Autowired
@@ -36,34 +36,71 @@ public class BookControllerTests {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-    Book existingBook, newBook, updateBook;
+    Book existingBook, newBook, updatedBook;
 
     @Before
     public void setUp() {
-        newBook = TestHelper.buildBookWithId();
+        newBook = TestHelper.buildBook();
         existingBook = TestHelper.buildBookWithId();
-        updateBook = TestHelper.buildBookWithId();
+        updatedBook = TestHelper.buildBookWithId();
     }
-    
+
     @Test
     public void should_get_all_books() throws Exception {
-        given(bookService.getAllBooks()).willReturn(Arrays.asList(existingBook, updateBook));
+        given(bookService.getAllBooks()).willReturn(Arrays.asList(existingBook, updatedBook));
 
         this.mockMvc
                 .perform(get("/api/books"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
     }
-    
+
     @Test
     public void should_get_book_by_id() throws Exception {
         given(bookService.getBookById(existingBook.getId())).willReturn(Optional.of(existingBook));
 
         this.mockMvc
-                .perform(get("/api/users/"+existingBook.getId()))
+                .perform(get("/api/books/" + existingBook.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(existingBook.getId())))
-                .andExpect(jsonPath("$.name", is(existingBook.getName())))
-                //.andExpect(jsonPath("$.email", is(existingBook.getEmail())));
+                .andExpect(jsonPath("$.id", is(existingBook.getId().intValue())))
+                .andExpect(jsonPath("$.name", is(existingBook.getName())));
     }
 
+    @Test
+    public void should_create_book() throws Exception {
+        given(bookService.saveBook(newBook)).willReturn(newBook);
+
+        this.mockMvc
+                .perform(post("/api/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newBook))
+                )
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id", notNullValue()))
+                .andExpect(jsonPath("$.name", is(newBook.getName())));
+    }
+
+    @Test
+    public void should_update_book() throws Exception {
+        given(bookService.updateBook(existingBook.getId(), updatedBook)).willReturn(Optional.of(updatedBook));
+
+        this.mockMvc
+                .perform(put("/api/books/" + existingBook.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedBook))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(updatedBook.getId().intValue())))
+                .andExpect(jsonPath("$.name", is(updatedBook.getName())));
+    }
+
+    @Test
+    public void should_delete_book() throws Exception {
+        given(bookService.getBookById(existingBook.getId())).willReturn(Optional.of(existingBook));
+        doNothing().when(bookService).deleteBook(existingBook.getId());
+
+        this.mockMvc
+                .perform(delete("/api/books/" + existingBook.getId()))
+                .andExpect(status().isOk());
+    }
+}
