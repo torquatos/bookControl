@@ -27,3 +27,43 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = BookController.class)
 public class BookControllerTests {
+	
+	@MockBean
+    BookService bookService;
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    Book existingBook, newBook, updateBook;
+
+    @Before
+    public void setUp() {
+        newBook = TestHelper.buildBookWithId();
+        existingBook = TestHelper.buildBookWithId();
+        updateBook = TestHelper.buildBookWithId();
+    }
+    
+    @Test
+    public void should_get_all_books() throws Exception {
+        given(bookService.getAllBooks()).willReturn(Arrays.asList(existingBook, updateBook));
+
+        this.mockMvc
+                .perform(get("/api/books"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+    
+    @Test
+    public void should_get_book_by_id() throws Exception {
+        given(bookService.getBookById(existingBook.getId())).willReturn(Optional.of(existingBook));
+
+        this.mockMvc
+                .perform(get("/api/users/"+existingBook.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(existingBook.getId())))
+                .andExpect(jsonPath("$.name", is(existingBook.getName())))
+                //.andExpect(jsonPath("$.email", is(existingBook.getEmail())));
+    }
+
