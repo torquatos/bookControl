@@ -29,25 +29,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BookControllerTests {
 
     @MockBean
-    BookService userService;
+    BookService bookService;
 
     @Autowired
     private MockMvc mockMvc;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-    Book existingUser, newUser, updateUser;
+    Book existingBook, newBook, updateBook;
 
     @Before
     public void setUp() {
-        newUser = TestHelper.buildBookWithId();
-        existingUser = TestHelper.buildBookWithId();
-        updateUser = TestHelper.buildBookWithId();
+        newBook = TestHelper.buildBookWithId();
+        existingBook = TestHelper.buildBookWithId();
+        updateBook = TestHelper.buildBookWithId();
     }
 
     @Test
     public void should_get_all_books() throws Exception {
-        given(userService.getAllBooks()).willReturn(Arrays.asList(existingBook, updateBook));
+        given(bookService.getAllBooks()).willReturn(Arrays.asList(existingBook, updateBook));
 
         this.mockMvc
                 .perform(get("/api/books"))
@@ -56,53 +56,54 @@ public class BookControllerTests {
     }
 
     @Test
-    public void should_get_user_by_id() throws Exception {
-        given(userService.getBookById(existingBook.getId())).willReturn(Optional.of(existingBook));
+    public void should_get_book_by_id() throws Exception {
+        given(bookService.getBookById(existingBook.getId())).willReturn(Optional.of(existingBook));
 
         this.mockMvc
-                .perform(get("/api/users/"+existingUser.getId()))
+                .perform(get("/api/books/"+existingBook.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(existingUser.getId())))
-                .andExpect(jsonPath("$.name", is(existingUser.getName())));
+                .andExpect(jsonPath("$.id", is(existingBook.getId())))
+                .andExpect(jsonPath("$.name", is(existingBook.getName())));
                 //.andExpect(jsonPath("$.email", is(existingUser.getEmail())));
     }
 
     @Test
-    public void should_create_user() throws Exception {
-        given(userService.createBook(newBook)).willReturn(newBook);
+    public void should_create_book() throws Exception {
+        given(bookService.saveBook(newBook)).willReturn(newBook);
 
         this.mockMvc
                 .perform(post("/api/users/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newUser))
+                        .content(objectMapper.writeValueAsString(newBook))
                 )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", notNullValue()))
-                .andExpect(jsonPath("$.name", is(newUser.getName())))
-                .andExpect(jsonPath("$.email", is(newUser.getEmail())));
+                .andExpect(jsonPath("$.name", is(newBook.getName())));
+               // .andExpect(jsonPath("$.email", is(newBook.getEmail())));
     }
 
     @Test
-    public void should_update_user() throws Exception {
-        given(userService.updateUser(existingUser)).willReturn(existingUser);
+    public void should_update_book() throws Exception {
+    	 given(bookService.updateBook(existingBook.getId(), updateBook)).willReturn(Optional.of(updateBook));
 
         this.mockMvc
-                .perform(put("/api/users/"+existingUser.getId())
+                .perform(put("/api/books/"+existingBook.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(existingUser))
+                        .content(objectMapper.writeValueAsString(updateBook))
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(existingUser.getId())))
-                .andExpect(jsonPath("$.name", is(existingUser.getName())))
-                .andExpect(jsonPath("$.email", is( existingUser.getEmail())));
+                .andExpect(jsonPath("$.id", is(updateBook.getId())))
+                .andExpect(jsonPath("$.name", is(updateBook.getName())));
+               // .andExpect(jsonPath("$.email", is( existingBook.getEmail())));
     }
 
     @Test
-    public void should_delete_user() throws Exception {
-        doNothing().when(userService).deleteUser(existingUser.getId());
+    public void should_delete_book() throws Exception {
+        given(bookService.getBookById(existingBook.getId())).willReturn(Optional.of(existingBook));
+        doNothing().when(bookService).deleteBook(existingBook.getId());
 
         this.mockMvc
-                .perform(delete("/api/users/"+existingUser.getId()))
+                .perform(delete("/api/books/"+existingBook.getId()))
                 .andExpect(status().isOk());
     }
 
