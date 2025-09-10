@@ -10,19 +10,38 @@ import static java.lang.String.format;
 public class TestHelper {
     public static Book buildBook() {
         String uuid = UUID.randomUUID().toString();
-        return User.builder()
-                .name("name-"+uuid)
-                .email(format("someone-%s@gmail.com", uuid))
-                .build();
+        return new Book (
+        	"Name-" + uuid,
+        	"Author-" + uuid,
+        	"Genre-" + uuid,
+        	"Publisher-" + uuid,
+        	2025,
+        	"Summary-" + uuid,
+        	0.0,
+        	"PersonalNotes-" + uuid
+        	);
+        	
+       
     }
 
-    public static User buildUserWithId() {
+    public static Book buildBookWithId() {
         Random random = new Random();
         String uuid = UUID.randomUUID().toString();
-        return User.builder()
-                .id(random.nextLong())
-                .name("name-"+uuid)
-                .email(format("someone-%s@gmail.com", uuid))
-                .build();
+        
+        Book book = new Book (
+            	"Name-" + uuid,
+            	"Author-" + uuid,
+            	"Genre-" + uuid,
+            	"Publisher-" + uuid,
+            	2025,
+            	"Summary-" + uuid,
+            	0.0,
+            	"PersonalNotes-" + uuid
+            	);
+        
+        book.setId(random.nextLong());
+        return book;
+
+
     }
 }
