@@ -1,6 +1,6 @@
 package com.torquatos.booksystem.book_management_system.utils;
 
-import com.torquatos.booksystem.book_management_system.entity.User;
+import com.torquatos.booksystem.book_management_system.entity.Book;
 
 import java.util.Random;
 import java.util.UUID;
@@ -8,7 +8,7 @@ import java.util.UUID;
 import static java.lang.String.format;
 
 public class TestHelper {
-    public static User buildUser() {
+    public static Book buildBook() {
         String uuid = UUID.randomUUID().toString();
         return User.builder()
                 .name("name-"+uuid)
