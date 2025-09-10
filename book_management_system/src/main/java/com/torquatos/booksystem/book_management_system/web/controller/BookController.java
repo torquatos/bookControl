@@ -3,7 +3,6 @@ package com.torquatos.booksystem.book_management_system.web.controller;
 import com.torquatos.booksystem.book_management_system.entity.*;
 import com.torquatos.booksystem.book_management_system.service.*;
 
-import org.springframework.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,5 +57,14 @@ public class BookController {
 					return new ResponseEntity<Void>(HttpStatus.OK);
 				})
 				.orElseGet(()-> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteBook(@PathVariable Long id){
+		if (!bookService.getBookById(id).isPresent()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		bookService.deleteBook(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }
