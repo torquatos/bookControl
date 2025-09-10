@@ -49,4 +49,14 @@ public class BookController {
 				})
 				.orElseGet(() -> new ResponseEntity<>(book, HttpStatus.NOT_FOUND));
 	}
+	
+	@PutMapping("/{id}/status")
+	public ResponseEntity<Void> updateBookStatus(@PathVariable Long id, @RequestBody Book book){
+		return bookService.getBookById(id)
+				.map(existingBook ->{
+					bookService.updateBookStatus(id, book.getWasRead());
+					return new ResponseEntity<Void>(HttpStatus.OK);
+				})
+				.orElseGet(()-> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
 }
