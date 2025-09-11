@@ -67,24 +67,24 @@ public class BookControllerIT extends BaseIntegrationTest {
         ResponseEntity<Book> responseEntity = restTemplate.postForEntity("/api/books", request, Book.class);
         Book savedBook = responseEntity.getBody();
         assertThat(savedBook.getId()).isNotNull();
+        assertThat(savedBook.getName()).isEqualTo(newBook.getName());
     }
 
     @Test
     public void should_update_book() {
+    	updateBook.setName("Updated Name");
         HttpEntity<Book> request = new HttpEntity<>(updateBook);
         restTemplate.put("/api/books/"+updateBook.getId(), request, Book.class);
         ResponseEntity<Book> responseEntity = restTemplate.getForEntity("/api/books/"+updateBook.getId(), Book.class);
-        Book updatedBook = responseEntity.getBody();
-        assertThat(updatedBook.getId()).isEqualTo(updateBook.getId());
+        Book fetchedBook = responseEntity.getBody();
+        assertThat(fetchedBook.getName()).isEqualTo("Updated Name");
         //assertThat(updatedBook.getEmail()).isEqualTo(updateUser.getEmail());
     }
 
     @Test
     public void should_delete_book() {
-        ResponseEntity<Book> responseEntity = restTemplate.getForEntity("/api/books/"+existingBook.getId(), Book.class);
-        assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
         restTemplate.delete("/api/books/"+existingBook.getId());
-        responseEntity = restTemplate.getForEntity("/api/books/"+existingBook.getId(), Book.class);
+        ResponseEntity<Book> responseEntity = restTemplate.getForEntity("/api/books/"+ existingBook.getId(), Book.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(NOT_FOUND);
     }
 }
