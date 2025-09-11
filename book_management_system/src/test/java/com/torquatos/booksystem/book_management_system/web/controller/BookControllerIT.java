@@ -50,7 +50,7 @@ public class BookControllerIT extends BaseIntegrationTest {
         ResponseEntity<Book[]> responseEntity = restTemplate.getForEntity("/api/books", Book[].class);
         List<Book> books = asList(responseEntity.getBody());
         assertThat(books).isNotEmpty();
-        assertThat(books).isNotEmpty();
+        assertThat(books.size()).isEqualTo(2);
     }
 
     @Test
@@ -58,6 +58,7 @@ public class BookControllerIT extends BaseIntegrationTest {
         ResponseEntity<Book> responseEntity = restTemplate.getForEntity("/api/books/"+existingBook.getId(), Book.class);
         Book book = responseEntity.getBody();
         assertThat(book).isNotNull();
+        assertThat(book.getId()).isEqualTo(existingBook.getId());
     }
 
     @Test
