@@ -42,16 +42,14 @@ public class BookControllerIT extends BaseIntegrationTest {
 
     @After
     public void tearDown() {
-        if(newBook.getId() != null) {
-            bookRepository.deleteById(newBook.getId());
-        }
-        bookRepository.deleteAll(bookRepository.findAllById(asList(existingBook.getId(), updateBook.getId())));
-    }
+    	bookRepository.deleteAll();
+         }
 
     @Test
     public void should_get_all_books() {
         ResponseEntity<Book[]> responseEntity = restTemplate.getForEntity("/api/books", Book[].class);
         List<Book> books = asList(responseEntity.getBody());
+        assertThat(books).isNotEmpty();
         assertThat(books).isNotEmpty();
     }
 
