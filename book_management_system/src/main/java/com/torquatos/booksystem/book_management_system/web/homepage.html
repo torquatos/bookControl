@@ -54,61 +54,57 @@
 		
 		<div id="bookModal" class="hodden fixed inset-0 bg-gry-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
 			<div class="relative bg-white rounded-xl shadow-xl p-6 w-full max-w-lg mx-4">
-			<h3 id="modalTitle" class="text-xl font-bold mb-4">Add New Book</h3>
-			<form id="bookForm">
+				<h3 id="modalTitle" class="text-xl font-bold mb-4">Add New Book</h3>
+				<form id="bookForm">
 				<input type="hidden" id="bookId">
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-					<div class="mb-4">
-						<label for="name" class="block text-sm font-medium text-gray-700">Title</label>
-						<input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
-					</div>
-					<div class="mb-4">
-						<label for="author" class="block text-sm font-medium text-gray-700">Author</label>
-						<input type="text" id="author" name="author" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
-					</div>
-					<div class="mb-4">
-						<label for="genre" class="block text-sm font-medium text-gray-700">Genre</label>
-						<input type="text" id="genre" name="genre" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
-					</div>
-					<div class="mb-4">
-						<label for="publisher" class="block text-sm font-medium text-gray-700">Publisher</label>
-						<input type="text" id="publisher" name="publisher" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
-					</div>
-					<div class="mb-4">
-						<label for="year" class="block text-sm font-medium text-gray-700">Year</label>
-						<input type="number" id="year" name="year" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
-					</div>
-					<div class="mb-4">
-						<label for="summary" class="block text-sm font-medium text-gray-700">Summary</label>
-						<input type="text" id="summary" name="summary" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
-					</div>
-					<div class="mb-4">
-						<label class="block text-sm font-medium text-gray-700">Was it read?</label>
-						<div class="mt-2 space-y-2">
-							<div class="flex items-center">
-								<input type="checkbox" id="wasRead" name="wasRead" value="yes"  class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
-								<label for="wasRead" class="ml-3 block text-sm font-medium text-gray-700">Yes, I had already read it</label>
-								<input type="checkbox" id="wantToRead" name="wantToRead" value="yes" class="focus:ring-blue-500 h-4 text-blue-600 border-gray-300">
-								<label for="wantToRead" class="ml-3 block text-sm font-medium text-gray-700">No, but I want to read it</label>
-								<input type="checkbox" id="readAgain" name="readAgain" value="yes" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
-								<label for="readAgain" class="ml-3 block text-sm font-medium text=gray-700">I want to read it once again</label>
-							</div>	
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div class="mb-4">
+							<label for="name" class="block text-sm font-medium text-gray-700">Title</label>
+							<input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
+						</div>
+						<div class="mb-4">
+							<label for="author" class="block text-sm font-medium text-gray-700">Author</label>
+							<input type="text" id="author" name="author" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
+						</div>
+						<div class="mb-4">
+							<label for="genre" class="block text-sm font-medium text-gray-700">Genre</label>
+							<input type="text" id="genre" name="genre" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
+						</div>
+						<div class="mb-4">
+							<label for="publisher" class="block text-sm font-medium text-gray-700">Publisher</label>
+							<input type="text" id="publisher" name="publisher" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
+						</div>
+						<div class="mb-4">
+							<label for="year" class="block text-sm font-medium text-gray-700">Year</label>
+							<input type="number" id="year" name="year" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
+						</div>
+						<div class="mb-4">
+							<label for="summary" class="block text-sm font-medium text-gray-700">Summary</label>
+							<input type="text" id="summary" name="summary" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
+						</div>
+						<div class="mb-4">
+							<label class="block text-sm font-medium text-gray-700">Was it read?</label>
+							<div class="mt-2 space-y-2">
+								<div class="flex items-center">
+									<input type="checkbox" id="wasRead" name="wasRead" value="yes"  class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
+									<label for="wasRead" class="ml-3 block text-sm font-medium text-gray-700">Yes, I had already read it</label>
+									<input type="checkbox" id="wantToRead" name="wantToRead" value="yes" class="focus:ring-blue-500 h-4 text-blue-600 border-gray-300">
+									<label for="wantToRead" class="ml-3 block text-sm font-medium text-gray-700">No, but I want to read it</label>
+									<input type="checkbox" id="readAgain" name="readAgain" value="yes" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
+									<label for="readAgain" class="ml-3 block text-sm font-medium text=gray-700">I want to read it once again</label>
+								</div>	
+							</div>
+						</div>
+						<div class="mb-4">
+							<label for="rate" class="block text-sm font-medium text-gray-700">Rate 0 to 10</label>
+							<input type="number" id="year" name="year" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
+						</div>
+						<div class="mb-4">
+							<label for="personalNotes" class="block text-sm font-medium text-gray-700">Personal notes</label>
+							<input type="text" id="personalNotes" name="personalNotes" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
 						</div>
 					</div>
-					<div class="mb-4">
-						<label for="rate" class="block text-sm font-medium text-gray-700">Rate 0 to 10</label>
-						<input type="number" id="year" name="year" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
-					</div>
-					<div class="mb-4">
-						<label for="personalNotes" class="block text-sm font-medium text-gray-700">Personal notes</label>
-						<input type="text" id="personalNotes" name="personalNotes" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
-					</div>
-					
-					</div>
-					</div>
-					</div>
-				</div>
-			</form>	
+				</form>	
 			</div>
 		</div>
 		
